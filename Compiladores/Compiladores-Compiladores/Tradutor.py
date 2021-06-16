@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr  1 09:39:08 2020
-
 @author: andre
 """
 import tabelaSimbolos
@@ -42,7 +40,7 @@ def match(char):
        s = "Found " + lookahead + " but expected " +char 
        print(s)
 
-def factor():
+def operacao2():
     global lookahead
     global contador
     global saida
@@ -50,38 +48,38 @@ def factor():
     global operador
     if lookahead == '*':
         match('*') 
-        term2()
+        digito()
         A = resultado.pop(len(resultado)-1)
         B = resultado.pop(len(resultado)-1)
         operador.valor = A.valor*B.valor
         operador.tipo = A.tipo
         resultado.append(operador)
         saida = saida.replace(saida, saida+'*') 
-        factor()
+        operacao2()
         
     elif lookahead == '/':
         match('/')
-        term2()
+        digito()
         A = resultado.pop(len(resultado)-1)
         B = resultado.pop(len(resultado)-1)
-        operador.valor = A.valor/B.valor
+        operador.valor = B.valor/A.valor
         operador.tipo = A.tipo
         resultado.append(operador)
         saida = saida.replace(saida, saida+'/')
-        factor()
+        operacao2()
 
 
     else:
         return 
      
-def term():
-    term2()
-    factor()
+def termos():
+    digito()
+    operacao2()
  
 
     
     
-def term2() :
+def digito() :
     global lookahead
     global contador
     global saida
@@ -139,15 +137,16 @@ def term2() :
             saida =saida.replace(saida, saida+'9')
             t2.tipo = tabelaSimbolos.varType('9')
             total = tabelaSimbolos.varValue(total ,9)
+            
         else :
-            print('Deu pau no term')
+            print('Erro, esperava-se Dígito em '+contador )
         
     t2.valor = total  
     resultado.append(t2)
     
     total = 0
         
-def rest():
+def operacao1():
     global lookahead
     global contador
     global saida
@@ -155,32 +154,33 @@ def rest():
     global EOF
     if lookahead =='-':
         match('-')
-        term()
+        termos()
         A = resultado.pop(len(resultado)-1)
         B = resultado.pop(len(resultado)-1)
-        operador.valor = A.valor-B.valor
+        operador.valor = B.valor-A.valor
         operador.tipo = A.tipo
         resultado.append(operador)
         saida =saida.replace(saida, saida+'-')
-        rest()
+        operacao1()
     elif lookahead =='+':
         match('+')
-        term()
+        termos()
         A = resultado.pop(len(resultado)-1)
         B = resultado.pop(len(resultado)-1)
         operador.valor = A.valor+B.valor
         operador.tipo = A.tipo
         resultado.append(operador)
         saida =saida.replace(saida, saida+'+')
-        rest()
+        operacao1()
+
     elif lookahead == EOF:
        """ print ('Correto') """     
     else:
         print('SINTAX ERROR')
 
 def expr():
-    term()
-    rest()
+    termos()
+    operacao1()
 
         
 if __name__=='__main__':
