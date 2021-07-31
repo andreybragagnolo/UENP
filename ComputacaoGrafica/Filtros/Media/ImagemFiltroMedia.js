@@ -19,6 +19,7 @@ let load = function (){
 
 }
 
+
 let rotacionar180 = function(){
     let imageData = context.getImageData(0,0,  canvas.width, canvas.height);
     let imageData2 = context.getImageData(0,0, canvas.width, canvas.height);
@@ -41,26 +42,19 @@ let rotacionar90 = function(){
     var largura = canvas.width;
     let imageData = context.getImageData(0,0, altura, largura);
     let imageData2 = context.getImageData(0,0, largura, altura);
+    context.clearRect(0,0,canvas.width,canvas.height);
     let img = new MatrixImage(imageData);
-
+    canvas.height = largura;
+    canvas.width = altura;
     let copia = new MatrixImage(imageData2);
-    //console.log("Copia (larg, alt) =" ,copia.width, copia.height)
-    //console.log("Original =", img.width, img.height)
-    for (var i = 0; i<=img.width; i++){
-        for (var j = 0; j<=img.height; j++){
+    for (var i = 0; i<canvas.width; i++){
+        for (var j = 0; j<canvas.height; j++){
             pixel = img.getPixel(i,j);
-        
-           copia.setPixel(copia.height - j,i, new RGBColor(pixel.red,pixel.green, pixel.blue));
-           //console.log("R =", pixel.red, "G = ", pixel.green, "B =", pixel.blue)
+            copia.setPixel(copia.height - j,i, new RGBColor(pixel.red,pixel.green, pixel.blue));
         }
-    }
-    context.putImageData(copia.imageData,0,0)
-
+    }  context.putImageData(copia.imageData,00,00)
 
 }
-
-
- 
 
     
    
@@ -72,6 +66,9 @@ let rotacionar270 = function(){
     var largura = canvas.width;
     let imageData = context.getImageData(0,0, altura, largura);
     let imageData2 = context.getImageData(0,0, largura, altura);
+    context.clearRect(0,0, canvas.width, canvas.height)
+    context.save();
+    context.drawImage(image,largura,altura);
     let img = new MatrixImage(imageData);
     canvas.height = largura;
     canvas.width = altura;
@@ -81,17 +78,10 @@ let rotacionar270 = function(){
     for (var i = 0; i<img.width; i++){
         for (var j = 0; j<img.height; j++){
             pixel = img.getPixel(i,j);
-            //console.log(copia.height - i)
             copia.setPixel(j,copia.height - i, new RGBColor(pixel.red,pixel.green, pixel.blue));
-           //console.log("R =", pixel.red, "G = ", pixel.green, "B =", pixel.blue)
         }
     }  
     context.putImageData(copia.imageData,0,0)
-    imageData = context.getImageData(0,0, altura, largura);
-    img = new MatrixImage(imageData);
-    console.log("Nova =", img.height," H | L = ", img.width)
-
-
 
 }
 
@@ -171,11 +161,11 @@ let grayScaleNTSC = function() {
 let zoom2 = function(){
 
     let imageData = context.getImageData(0,0,  canvas.width, canvas.height);
-    let imageData2 = context.getImageData(0,0, canvas.width*2, canvas.height*2);
+    let imageData2 = context.getImageData(0,0, canvas.width, canvas.height);
     let img = new MatrixImage(imageData);
     let copia = new MatrixImage(imageData2);
-    canvas.width = canvas.width*2;
-    canvas.height = canvas.height*2;
+    canvas.width = canvas.width;
+    canvas.height = canvas.height;
 
     for (var i = 0; i<img.width; i++){
         for (var j = 0; j<img.height; j++){
@@ -187,7 +177,7 @@ let zoom2 = function(){
                 }
             }
     }
-
+    canvas.width = canvas.width*2;
     context.putImageData(copia.imageData,0,0)
 
 
@@ -342,7 +332,7 @@ let gaussianblur = function() {//limpar depois
                 media_b += pixel_sort_b[x]
                 media_g += pixel_sort_g[x]
             }
-            img.setPixel(i, j, new RGBColor(media_r/16,media_g/16,media_b/16));
+            img.setPixel(i, j, new RGBColor((media_r/16),(media_g/16),(media_b/16)));
         }
     }
     context.putImageData(img.imageData, 0, 0);
