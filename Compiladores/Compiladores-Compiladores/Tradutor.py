@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 @author: andre
+
+Notes and tips:
+    This is an simple Expression Interpreter, made in Python 3.8;
+    In addition, the input scheme should be done as in the example below:
+        #x = 2 - 2 + 2/5;\eny = 2 * 10 + 1;\enz = (x + y) * 5;\enprint(z);
+        due to Python Language and some properties of it, I couldnt work with the '\n' character, so, it was repalced
+        with an representation '\en'. On the end of the code, there is another kinds of inputs accepteds by the Simple Interpreter. 
+        
+
+    
 """
 import Lexema
     
