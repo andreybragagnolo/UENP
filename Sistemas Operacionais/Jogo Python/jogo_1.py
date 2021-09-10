@@ -21,7 +21,7 @@ mutex = Lock()
 pygame.init()
 
 #Criação dos elementos do jogo -> Ovelhas, Lobos, elementos de cenário e outros
-fundo = pygame.image.load('C://Users//andy_//OneDrive//RepositorioGitHub//UENP//Jogo Python//FUNDO.jpg')
+fundo = pygame.image.load('FUNDO.png')
 cachorro1 = cachorro.spawn_dog(x,y,3)
 tarefalobo = ThreadComRetorno(target = lobo.spawn_lobo, args = [1,150,4])
 tarefalobo.start()
